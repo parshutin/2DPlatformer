@@ -1,50 +1,59 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Destroyer : MonoBehaviour
+namespace Assets.Scripts
 {
-	public bool destroyOnAwake;			// Whether or not this gameobject should destroyed after a delay, on Awake.
-	public float awakeDestroyDelay;		// The delay for destroying it on Awake.
-	public bool findChild = false;				// Find a child game object and delete it
-	public string namedChild;			// Name the child object in Inspector
+    public class Destroyer : MonoBehaviour
+    {
+        #region Fields
 
+        public float awakeDestroyDelay;
 
-	void Awake ()
-	{
-		// If the gameobject should be destroyed on awake,
-		if(destroyOnAwake)
-		{
-			if(findChild)
-			{
-				Destroy (transform.Find(namedChild).gameObject);
-			}
-			else
-			{
-				// ... destroy the gameobject after the delay.
-				Destroy(gameObject, awakeDestroyDelay);
-			}
+        public bool destroyOnAwake;
 
-		}
+        public bool findChild = false;
 
-	}
+        public string namedChild;
 
-	void DestroyChildGameObject ()
-	{
-		// Destroy this child gameobject, this can be called from an Animation Event.
-		if(transform.Find(namedChild).gameObject != null)
-			Destroy (transform.Find(namedChild).gameObject);
-	}
+        #endregion
 
-	void DisableChildGameObject ()
-	{
-		// Destroy this child gameobject, this can be called from an Animation Event.
-		if(transform.Find(namedChild).gameObject.activeSelf == true)
-			transform.Find(namedChild).gameObject.SetActive(false);
-	}
+        #region Methods
 
-	void DestroyGameObject ()
-	{
-		// Destroy this gameobject, this can be called from an Animation Event.
-		Destroy (gameObject);
-	}
+        private void Awake()
+        {
+            if (this.destroyOnAwake)
+            {
+                if (this.findChild)
+                {
+                    Destroy(this.transform.Find(this.namedChild).gameObject);
+                }
+                else
+                {
+                    Destroy(this.gameObject, this.awakeDestroyDelay);
+                }
+            }
+        }
+
+        private void DestroyChildGameObject()
+        {
+            if (this.transform.Find(this.namedChild).gameObject != null)
+            {
+                Destroy(this.transform.Find(this.namedChild).gameObject);
+            }
+        }
+
+        private void DestroyGameObject()
+        {
+            Destroy(this.gameObject);
+        }
+
+        private void DisableChildGameObject()
+        {
+            if (this.transform.Find(this.namedChild).gameObject.activeSelf)
+            {
+                this.transform.Find(this.namedChild).gameObject.SetActive(false);
+            }
+        }
+
+        #endregion
+    }
 }

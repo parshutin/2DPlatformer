@@ -29,4 +29,6 @@ Library/assetservercachev3
 Library/expandedItems
 Library/guidmapper
 Library/AnnotationManager
+DesktopBuild_Data
+WP8Build
 *-csharp.sln.*/

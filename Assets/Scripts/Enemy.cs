@@ -1,120 +1,106 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Enemy : MonoBehaviour
+namespace Assets.Scripts
 {
-	public float moveSpeed = 2f;		// The speed the enemy moves at.
-	public int HP = 2;					// How many times the enemy can be hit before it dies.
-	public Sprite deadEnemy;			// A sprite of the enemy when it's dead.
-	public Sprite damagedEnemy;			// An optional sprite of the enemy when it's damaged.
-	public AudioClip[] deathClips;		// An array of audioclips that can play when the enemy dies.
-	public GameObject hundredPointsUI;	// A prefab of 100 that appears when the enemy dies.
-	public float deathSpinMin = -100f;			// A value to give the minimum amount of Torque when dying
-	public float deathSpinMax = 100f;			// A value to give the maximum amount of Torque when dying
+    public class Enemy : MonoBehaviour
+    {
+        #region Fields
 
+        public int HP = 2;
 
-	private SpriteRenderer ren;			// Reference to the sprite renderer.
-	private Transform frontCheck;		// Reference to the position of the gameobject used for checking if something is in front.
-	private bool dead = false;			// Whether or not the enemy is dead.
-	private Score score;				// Reference to the Score script.
+        public Sprite damagedEnemy;
 
-	
-	void Awake()
-	{
-		// Setting up the references.
-		ren = transform.Find("body").GetComponent<SpriteRenderer>();
-		frontCheck = transform.Find("frontCheck").transform;
-		score = GameObject.Find("Score").GetComponent<Score>();
-	}
+        public Sprite deadEnemy;
 
-	void FixedUpdate ()
-	{
-		// Create an array of all the colliders in front of the enemy.
-		Collider2D[] frontHits = Physics2D.OverlapPointAll(frontCheck.position, 1);
+        public AudioClip[] deathClips;
 
-		// Check each of the colliders.
-		foreach(Collider2D c in frontHits)
-		{
-			// If any of the colliders is an Obstacle...
-			if(c.tag == "Obstacle")
-			{
-				// ... Flip the enemy and stop checking the other colliders.
-				Flip ();
-				break;
-			}
-		}
+        public float deathSpinMax = 100f;
 
-		// Set the enemy's velocity to moveSpeed in the x direction.
-		rigidbody2D.velocity = new Vector2(transform.localScale.x * moveSpeed, rigidbody2D.velocity.y);	
+        public float deathSpinMin = -100f;
 
-		// If the enemy has one hit point left and has a damagedEnemy sprite...
-		if(HP == 1 && damagedEnemy != null)
-			// ... set the sprite renderer's sprite to be the damagedEnemy sprite.
-			ren.sprite = damagedEnemy;
-			
-		// If the enemy has zero or fewer hit points and isn't dead yet...
-		if(HP <= 0 && !dead)
-			// ... call the death function.
-			Death ();
-	}
-	
-	public void Hurt()
-	{
-		// Reduce the number of hit points by one.
-		HP--;
-	}
-	
-	void Death()
-	{
-		// Find all of the sprite renderers on this object and it's children.
-		SpriteRenderer[] otherRenderers = GetComponentsInChildren<SpriteRenderer>();
+        public GameObject hundredPointsUI;
 
-		// Disable all of them sprite renderers.
-		foreach(SpriteRenderer s in otherRenderers)
-		{
-			s.enabled = false;
-		}
+        public float moveSpeed = 2f;
 
-		// Re-enable the main sprite renderer and set it's sprite to the deadEnemy sprite.
-		ren.enabled = true;
-		ren.sprite = deadEnemy;
+        private bool dead;
 
-		// Increase the score by 100 points
-		score.score += 100;
+        private Transform frontCheck;
 
-		// Set dead to true.
-		dead = true;
+        private SpriteRenderer ren;
 
-		// Allow the enemy to rotate and spin it by adding a torque.
-		rigidbody2D.fixedAngle = false;
-		rigidbody2D.AddTorque(Random.Range(deathSpinMin,deathSpinMax));
+        [SerializeField]
+        private GameObject spawner;
 
-		// Find all of the colliders on the gameobject and set them all to be triggers.
-		Collider2D[] cols = GetComponents<Collider2D>();
-		foreach(Collider2D c in cols)
-		{
-			c.isTrigger = true;
-		}
+        #endregion
 
-		// Play a random audioclip from the deathClips array.
-		int i = Random.Range(0, deathClips.Length);
-		AudioSource.PlayClipAtPoint(deathClips[i], transform.position);
+        #region Public Methods and Operators
 
-		// Create a vector that is just above the enemy.
-		Vector3 scorePos;
-		scorePos = transform.position;
-		scorePos.y += 1.5f;
+        public void Flip()
+        {
+            Vector3 enemyScale = this.transform.localScale;
+            enemyScale.x *= -1;
+            this.transform.localScale = enemyScale;
+        }
 
-		// Instantiate the 100 points prefab at this point.
-		Instantiate(hundredPointsUI, scorePos, Quaternion.identity);
-	}
+        public void Hurt()
+        {
+            this.HP--;
+        }
 
+        #endregion
 
-	public void Flip()
-	{
-		// Multiply the x component of localScale by -1.
-		Vector3 enemyScale = transform.localScale;
-		enemyScale.x *= -1;
-		transform.localScale = enemyScale;
-	}
+        #region Methods
+
+        private void Awake()
+        {
+            this.ren = this.transform.Find("body").GetComponent<SpriteRenderer>();
+            this.frontCheck = this.transform.Find("frontCheck").transform;
+        }
+
+        private void Death()
+        {
+            SpriteRenderer[] otherRenderers = this.GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer s in otherRenderers)
+            {
+                s.enabled = false;
+            }
+
+            this.ren.enabled = true;
+            this.ren.sprite = this.deadEnemy;
+            this.dead = true;
+            this.spawner.GetComponent<Spawner>().EnemiesCount--;
+            this.rigidbody2D.fixedAngle = false;
+            this.rigidbody2D.AddTorque(Random.Range(this.deathSpinMin, this.deathSpinMax));
+            Collider2D[] cols = this.GetComponents<Collider2D>();
+            foreach (Collider2D c in cols)
+            {
+                c.isTrigger = true;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            Collider2D[] frontHits = Physics2D.OverlapPointAll(this.frontCheck.position);
+            foreach (Collider2D c in frontHits)
+            {
+                if (c.tag == "Wall")
+                {
+                    this.Flip();
+                    break;
+                }
+            }
+            this.rigidbody2D.velocity = new Vector2(this.transform.localScale.x * this.moveSpeed, this.rigidbody2D.velocity.y);
+
+            if (this.HP == 1 && this.damagedEnemy != null)
+            {
+                this.ren.sprite = this.damagedEnemy;
+            }
+            if (this.HP <= 0 && !this.dead)
+            {
+                this.Death();
+            }
+        }
+
+        #endregion
+    }
 }

@@ -1,46 +1,68 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Gun : MonoBehaviour
+using UnitySampleAssets.CrossPlatformInput;
+using UnitySampleAssets._2D;
+
+namespace Assets.Scripts
 {
-	public Rigidbody2D rocket;				// Prefab of the rocket.
-	public float speed = 20f;				// The speed the rocket will fire at.
+    public class Gun : MonoBehaviour
+    {
+        #region Constants
 
+        private const float BombSpeed = 5f;
 
-	private PlayerControl playerCtrl;		// Reference to the PlayerControl script.
-	private Animator anim;					// Reference to the Animator component.
+        private const float RoketSpeed = 20f;
 
+        #endregion
 
-	void Awake()
-	{
-		// Setting up the references.
-		anim = transform.root.gameObject.GetComponent<Animator>();
-		playerCtrl = transform.root.GetComponent<PlayerControl>();
-	}
+        #region Fields
 
+        public Rigidbody2D bomb;
 
-	void Update ()
-	{
-		// If the fire button is pressed...
-		if(Input.GetButtonDown("Fire1"))
-		{
-			// ... set the animator Shoot trigger parameter and play the audioclip.
-			anim.SetTrigger("Shoot");
-			audio.Play();
+        public Rigidbody2D rocket;
 
-			// If the player is facing right...
-			if(playerCtrl.facingRight)
-			{
-				// ... instantiate the rocket facing right and set it's velocity to the right. 
-				Rigidbody2D bulletInstance = Instantiate(rocket, transform.position, Quaternion.Euler(new Vector3(0,0,0))) as Rigidbody2D;
-				bulletInstance.velocity = new Vector2(speed, 0);
-			}
-			else
-			{
-				// Otherwise instantiate the rocket facing left and set it's velocity to the left.
-				Rigidbody2D bulletInstance = Instantiate(rocket, transform.position, Quaternion.Euler(new Vector3(0,0,180f))) as Rigidbody2D;
-				bulletInstance.velocity = new Vector2(-speed, 0);
-			}
-		}
-	}
+        private Animator anim;
+
+        private PlatformerCharacter2D playerCtrl;
+
+        #endregion
+
+        #region Methods
+
+        private void Awake()
+        {
+            this.anim = this.transform.root.gameObject.GetComponent<Animator>();
+            this.playerCtrl = this.transform.root.GetComponent<PlatformerCharacter2D>();
+        }
+
+        private void Shoot(Rigidbody2D rigidbody, Vector2 velocity, Vector3 rotation)
+        {
+            if (this.playerCtrl.facingRight)
+            {
+                var bullet = Instantiate(rigidbody, this.transform.position, Quaternion.Euler(rotation)) as Rigidbody2D;
+                bullet.velocity = velocity;
+            }
+        }
+
+        private void Update()
+        {
+            if (CrossPlatformInputManager.GetButtonDown("Fire1"))
+            {
+                this.Shoot(
+                    this.rocket,
+                    this.playerCtrl.facingRight ? new Vector2(RoketSpeed, 0) : new Vector2(-RoketSpeed, 0),
+                    this.playerCtrl.facingRight ? new Vector3(0, 0, 0) : new Vector3(0, 0, 180f));
+            }
+
+            if (CrossPlatformInputManager.GetButtonDown("Fire2"))
+            {
+                this.Shoot(
+                    this.bomb,
+                    this.playerCtrl.facingRight ? new Vector2(BombSpeed, BombSpeed) : new Vector2(-BombSpeed, BombSpeed),
+                    this.playerCtrl.facingRight ? new Vector3(0, 0, 0) : new Vector3(0, 0, 180f));
+            }
+        }
+
+        #endregion
+    }
 }

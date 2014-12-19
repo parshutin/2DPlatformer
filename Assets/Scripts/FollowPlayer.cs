@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class FollowPlayer : MonoBehaviour
+namespace Assets.Scripts
 {
-	public Vector3 offset;			// The offset at which the Health Bar follows the player.
-	
-	private Transform player;		// Reference to the player.
+    public class FollowPlayer : MonoBehaviour
+    {
+        #region Fields
 
+        public GameObject Player;
 
-	void Awake ()
-	{
-		// Setting up the reference.
-		player = GameObject.FindGameObjectWithTag("Player").transform;
-	}
+        public Vector3 offset;
 
-	void Update ()
-	{
-		// Set the position to the player's position with the offset.
-		transform.position = player.position + offset;
-	}
+        #endregion
+
+        #region Methods
+
+        private void Update()
+        {
+            this.transform.position = this.Player.transform.position + this.offset;
+        }
+
+        #endregion
+    }
 }

@@ -1,30 +1,48 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Spawner : MonoBehaviour
+namespace Assets.Scripts
 {
-	public float spawnTime = 5f;		// The amount of time between each spawn.
-	public float spawnDelay = 3f;		// The amount of time before spawning starts.
-	public GameObject[] enemies;		// Array of enemy prefabs.
+    public class Spawner : MonoBehaviour
+    {
+        #region Constants
 
+        private const int MaxEnemiesCount = 2;
 
-	void Start ()
-	{
-		// Start calling the Spawn function repeatedly after a delay .
-		InvokeRepeating("Spawn", spawnDelay, spawnTime);
-	}
+        private const float SpawnDelay = 3f;
 
+        private const float SpawnTime = 5f;
 
-	void Spawn ()
-	{
-		// Instantiate a random enemy.
-		int enemyIndex = Random.Range(0, enemies.Length);
-		Instantiate(enemies[enemyIndex], transform.position, transform.rotation);
+        #endregion
 
-		// Play the spawning effect from all of the particle systems.
-		foreach(ParticleSystem p in GetComponentsInChildren<ParticleSystem>())
-		{
-			p.Play();
-		}
-	}
+        #region Fields
+
+        [SerializeField]
+        private GameObject enemy;
+
+        #endregion
+
+        #region Public Properties
+
+        public int EnemiesCount { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        private void Spawn()
+        {
+            if (this.EnemiesCount < MaxEnemiesCount)
+            {
+                Instantiate(this.enemy, this.transform.position, this.transform.rotation);
+                this.EnemiesCount++;
+            }
+        }
+
+        private void Start()
+        {
+            this.InvokeRepeating("Spawn", SpawnDelay, SpawnTime);
+        }
+
+        #endregion
+    }
 }

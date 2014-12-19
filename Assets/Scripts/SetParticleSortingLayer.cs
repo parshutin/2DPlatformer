@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class SetParticleSortingLayer : MonoBehaviour
+namespace Assets.Scripts
 {
-	public string sortingLayerName;		// The name of the sorting layer the particles should be set to.
+    public class SetParticleSortingLayer : MonoBehaviour
+    {
+        #region Fields
 
+        public string sortingLayerName;
 
-	void Start ()
-	{
-		// Set the sorting layer of the particle system.
-		particleSystem.renderer.sortingLayerName = sortingLayerName;
-	}
+        #endregion
+
+        #region Methods
+
+        private void Start()
+        {
+            this.particleSystem.renderer.sortingLayerName = this.sortingLayerName;
+        }
+
+        #endregion
+    }
 }
