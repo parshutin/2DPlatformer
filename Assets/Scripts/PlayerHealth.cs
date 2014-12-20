@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using UnitySampleAssets._2D;
-
 namespace Assets.Scripts
 {
     public class PlayerHealth : MonoBehaviour
@@ -52,7 +50,12 @@ namespace Assets.Scripts
 
         private void OnCollisionEnter2D(Collision2D col)
         {
-            if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Fire")
+            this.CheckCollision(col);
+        }
+
+        private void CheckCollision(Collision2D col)
+        {
+           if (col.gameObject.tag == Tags.Enemy || col.gameObject.tag == Tags.Fire)
             {
                 if (Time.time > this.lastHitTime + this.repeatDamagePeriod)
                 {
@@ -72,12 +75,12 @@ namespace Assets.Scripts
                         SpriteRenderer[] spr = this.GetComponentsInChildren<SpriteRenderer>();
                         foreach (SpriteRenderer s in spr)
                         {
-                            s.sortingLayerName = "UI";
+                            s.sortingLayerName = Layers.UI;
                         }
 
                         this.GetComponent<Platformer2DUserControl>().enabled = false;
                         this.GetComponentInChildren<Gun>().enabled = false;
-                        this.anim.SetTrigger("Die");
+                        this.anim.SetTrigger(Triggers.Die);
                     }
                 }
             }
@@ -85,35 +88,7 @@ namespace Assets.Scripts
 
         private void OnCollisionStay2D(Collision2D col)
         {
-            if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Fire")
-            {
-                if (Time.time > this.lastHitTime + this.repeatDamagePeriod)
-                {
-                    if (this.health > 0f)
-                    {
-                        this.TakeDamage(col.transform);
-                        this.lastHitTime = Time.time;
-                    }
-                    else
-                    {
-                        Collider2D[] cols = this.GetComponents<Collider2D>();
-                        foreach (Collider2D c in cols)
-                        {
-                            c.isTrigger = true;
-                        }
-
-                        SpriteRenderer[] spr = this.GetComponentsInChildren<SpriteRenderer>();
-                        foreach (SpriteRenderer s in spr)
-                        {
-                            s.sortingLayerName = "UI";
-                        }
-
-                        this.GetComponent<Platformer2DUserControl>().enabled = false;
-                        this.GetComponentInChildren<Gun>().enabled = false;
-                        this.anim.SetTrigger("Die");
-                    }
-                }
-            }
+            this.CheckCollision(col);
         }
 
         private void TakeDamage(Transform damageDealer)

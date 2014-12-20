@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+
+using UnityEngine;
 
 namespace Scripts
 {
@@ -20,7 +22,7 @@ namespace Scripts
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.tag == "Untagged")
+            if (col.tag == Tags.Untagged)
             {
                 this.speed *= -1;
                 this.rigidbody2D.velocity = this.speed;

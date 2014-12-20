@@ -20,7 +20,7 @@ namespace Assets.Scripts
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.tag == "Enemy")
+            if (col.tag == Tags.Enemy)
             {
                 col.gameObject.GetComponent<Enemy>().Hurt();
             }

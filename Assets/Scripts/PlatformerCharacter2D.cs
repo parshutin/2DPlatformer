@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnitySampleAssets._2D
+namespace Assets.Scripts
 {
     public class PlatformerCharacter2D : MonoBehaviour
     {
@@ -52,7 +52,7 @@ namespace UnitySampleAssets._2D
 
             if (this.grounded && jump)
             {
-                this.anim.SetTrigger("Jump");
+                this.anim.SetTrigger(Triggers.Jump);
                 this.rigidbody2D.AddForce(new Vector2(0f, jumpForce));
             }
         }

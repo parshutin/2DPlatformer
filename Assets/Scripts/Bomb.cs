@@ -28,11 +28,11 @@ namespace Assets.Scripts
 
         public void Explode()
         {
-            Collider2D[] enemies = Physics2D.OverlapCircleAll(this.transform.position, BombRadius, 1 << LayerMask.NameToLayer("Enemy"));
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(this.transform.position, BombRadius, 1 << LayerMask.NameToLayer(Layers.Enemy));
             foreach (Collider2D en in enemies)
             {
                 var rb = en.rigidbody2D;
-                if (rb != null && rb.tag == "Enemy")
+                if (rb != null && rb.tag == Tags.Enemy)
                 {
                     rb.gameObject.GetComponent<Enemy>().HP = 0;
                     Vector3 deltaPos = rb.transform.position - this.transform.position;
@@ -53,7 +53,7 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            this.explosionFX = GameObject.FindGameObjectWithTag("ExplosionFX").GetComponent<ParticleSystem>();
+            this.explosionFX = GameObject.FindGameObjectWithTag(Tags.Explosion).GetComponent<ParticleSystem>();
         }
 
         private IEnumerator BombDetonation()

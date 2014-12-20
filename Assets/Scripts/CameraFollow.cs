@@ -26,7 +26,7 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-           this.player = GameObject.FindGameObjectWithTag("Player").transform;
+           this.player = GameObject.FindGameObjectWithTag(Tags.Player).transform;
         }
 
         private bool CheckXMargin()

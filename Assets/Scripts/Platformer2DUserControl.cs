@@ -2,7 +2,7 @@
 
 using UnitySampleAssets.CrossPlatformInput;
 
-namespace UnitySampleAssets._2D
+namespace Assets.Scripts
 {
     public class Platformer2DUserControl : MonoBehaviour
     {
@@ -33,7 +33,7 @@ namespace UnitySampleAssets._2D
         {
             if (!this.jump)
             {
-                this.jump = CrossPlatformInputManager.GetButtonDown("Jump");
+                this.jump = CrossPlatformInputManager.GetButtonDown(Buttons.Jump);
             }
         }
 

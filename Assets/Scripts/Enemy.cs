@@ -83,7 +83,7 @@ namespace Assets.Scripts
             Collider2D[] frontHits = Physics2D.OverlapPointAll(this.frontCheck.position);
             foreach (Collider2D c in frontHits)
             {
-                if (c.tag == "Wall")
+                if (c.tag == Tags.Wall)
                 {
                     this.Flip();
                     break;
