@@ -8,17 +8,11 @@ namespace Assets.Scripts
 
         public int HP = 2;
 
-        public Sprite damagedEnemy;
-
         public Sprite deadEnemy;
-
-        public AudioClip[] deathClips;
 
         public float deathSpinMax = 100f;
 
         public float deathSpinMin = -100f;
-
-        public GameObject hundredPointsUI;
 
         public float moveSpeed = 2f;
 
@@ -27,9 +21,6 @@ namespace Assets.Scripts
         private Transform frontCheck;
 
         private SpriteRenderer ren;
-
-        [SerializeField]
-        private GameObject spawner;
 
         #endregion
 
@@ -68,7 +59,7 @@ namespace Assets.Scripts
             this.ren.enabled = true;
             this.ren.sprite = this.deadEnemy;
             this.dead = true;
-            this.spawner.GetComponent<Spawner>().EnemiesCount--;
+            GameObject.FindGameObjectWithTag(Tags.Spawner).GetComponent<Spawner>().KillEnemy();
             this.rigidbody2D.fixedAngle = false;
             this.rigidbody2D.AddTorque(Random.Range(this.deathSpinMin, this.deathSpinMax));
             Collider2D[] cols = this.GetComponents<Collider2D>();
@@ -89,12 +80,8 @@ namespace Assets.Scripts
                     break;
                 }
             }
-            this.rigidbody2D.velocity = new Vector2(this.transform.localScale.x * this.moveSpeed, this.rigidbody2D.velocity.y);
 
-            if (this.HP == 1 && this.damagedEnemy != null)
-            {
-                this.ren.sprite = this.damagedEnemy;
-            }
+            this.rigidbody2D.velocity = new Vector2(this.transform.localScale.x * this.moveSpeed, this.rigidbody2D.velocity.y);
             if (this.HP <= 0 && !this.dead)
             {
                 this.Death();

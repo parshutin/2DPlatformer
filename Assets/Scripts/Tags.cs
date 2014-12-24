@@ -16,6 +16,12 @@
 
         public const string Wall = "Wall";
 
+        public const string Spawner = "Spawner";
+
+        public const string PlayerCamera = "Player Camera";
+
+        public const string PlayerHealth = "Player Health";
+
         #endregion
     }
 }

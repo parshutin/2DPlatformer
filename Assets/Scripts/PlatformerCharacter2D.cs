@@ -35,7 +35,7 @@ namespace Assets.Scripts
 
         public void Move(float move, bool crouch, bool jump)
         {
-            if (this.grounded || this.airControl)
+            //if (this.grounded || this.airControl)
             {
                 move = (crouch ? move * crouchSpeed : move);
                 this.anim.SetFloat("Speed", Mathf.Abs(move));

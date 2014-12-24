@@ -12,6 +12,8 @@ namespace Assets.Scripts
 
         private const float SpawnTime = 5f;
 
+        private int enemiesCount;
+
         #endregion
 
         #region Fields
@@ -21,21 +23,20 @@ namespace Assets.Scripts
 
         #endregion
 
-        #region Public Properties
-
-        public int EnemiesCount { get; set; }
-
-        #endregion
-
         #region Methods
 
         private void Spawn()
         {
-            if (this.EnemiesCount < MaxEnemiesCount)
+            if (this.enemiesCount < MaxEnemiesCount)
             {
                 Instantiate(this.enemy, this.transform.position, this.transform.rotation);
-                this.EnemiesCount++;
+                this.enemiesCount++;
             }
+        }
+
+        public void KillEnemy()
+        {
+            this.enemiesCount--;
         }
 
         private void Start()

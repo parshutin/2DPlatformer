@@ -6,17 +6,17 @@ namespace Assets.Scripts
     {
         #region Fields
 
-        public Vector2 maxXAndY;
+        private Vector2 maxXAndY = new Vector2(80,34);
 
-        public Vector2 minXAndY;
+        private Vector2 minXAndY = new Vector2(-30, -34);
 
-        public float xMargin = 1f;
+        private const float xMargin = 1f;
 
-        public float xSmooth = 8f;
+        private const float xSmooth = 8f;
 
-        public float yMargin = 1f;
+        private const float yMargin = 1f;
 
-        public float ySmooth = 8f;
+        private const float ySmooth = 8f;
 
         private Transform player;
 
@@ -31,15 +31,15 @@ namespace Assets.Scripts
 
         private bool CheckXMargin()
         {
-            return Mathf.Abs(this.transform.position.x - this.player.position.x) > this.xMargin;
+            return Mathf.Abs(this.transform.position.x - this.player.position.x) > xMargin;
         }
 
         private bool CheckYMargin()
         {
-            return Mathf.Abs(this.transform.position.y - this.player.position.y) > this.yMargin;
+            return Mathf.Abs(this.transform.position.y - this.player.position.y) > yMargin;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             this.TrackPlayer();
         }
@@ -50,12 +50,12 @@ namespace Assets.Scripts
             float targetY = this.transform.position.y;
             if (this.CheckXMargin())
             {
-                targetX = Mathf.Lerp(this.transform.position.x, this.player.position.x, this.xSmooth * Time.deltaTime);
+                targetX = Mathf.Lerp(this.transform.position.x, this.player.position.x, xSmooth * Time.deltaTime);
             }
 
             if (this.CheckYMargin())
             {
-                targetY = Mathf.Lerp(this.transform.position.y, this.player.position.y, this.ySmooth * Time.deltaTime);
+                targetY = Mathf.Lerp(this.transform.position.y, this.player.position.y, ySmooth * Time.deltaTime);
             }
 
             targetX = Mathf.Clamp(targetX, this.minXAndY.x, this.maxXAndY.x);
