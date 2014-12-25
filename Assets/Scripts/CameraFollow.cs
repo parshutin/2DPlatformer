@@ -6,17 +6,17 @@ namespace Assets.Scripts
     {
         #region Fields
 
-        private Vector2 maxXAndY = new Vector2(80,34);
+        private Vector2 maxXAndY = new Vector2(80,34);//new Vector2(80,34);
 
-        private Vector2 minXAndY = new Vector2(-30, -34);
+        private Vector2 minXAndY = new Vector2(-80, -34);//new Vector2(-30, -34);
 
         private const float xMargin = 1f;
 
-        private const float xSmooth = 8f;
+        private const float xSmooth = 2f;
 
         private const float yMargin = 1f;
 
-        private const float ySmooth = 8f;
+        private const float ySmooth = 2f;
 
         private Transform player;
 

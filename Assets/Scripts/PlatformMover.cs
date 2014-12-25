@@ -8,7 +8,7 @@ namespace Scripts
     {
         #region Fields
 
-        private Vector3 speed;
+        private Vector2 speed;
 
         #endregion
 
@@ -16,7 +16,7 @@ namespace Scripts
 
         private void Awake()
         {
-            this.speed = new Vector2(5, 0);
+            this.speed = new Vector2(2, 0);
             this.rigidbody2D.velocity = this.speed;
         }
 

@@ -27,7 +27,7 @@ namespace Assets.Scripts
 
         private const float jumpForce = 400f;
 
-        private const float maxSpeed = 10f;
+        private const float maxSpeed = 5f;
 
         #endregion
 
@@ -35,10 +35,12 @@ namespace Assets.Scripts
 
         public void Move(float move, bool crouch, bool jump)
         {
-            //if (this.grounded || this.airControl)
-            {
                 move = (crouch ? move * crouchSpeed : move);
+                if (this.grounded)
+            {
                 this.anim.SetFloat("Speed", Mathf.Abs(move));
+            }
+                
                 this.rigidbody2D.velocity = new Vector2(move * maxSpeed, this.rigidbody2D.velocity.y);
                 if (move > 0 && !this.facingRight)
                 {
@@ -48,7 +50,28 @@ namespace Assets.Scripts
                 {
                     this.Flip();
                 }
-            }
+
+                /*anim.SetFloat("Speed", Mathf.Abs(move));
+                if (move * rigidbody2D.velocity.x < maxSpeed)
+                {
+                    rigidbody2D.AddForce(Vector2.right * move * 365f);
+                }
+
+                if (Mathf.Abs(rigidbody2D.velocity.x) > maxSpeed)
+                {
+                    rigidbody2D.velocity = new Vector2(Mathf.Sign(rigidbody2D.velocity.x) * maxSpeed, rigidbody2D.velocity.y);
+                }
+
+                if (move > 0 && !facingRight)
+                {
+                    Flip();
+                }
+                else if (move < 0 && facingRight)
+                {
+                    Flip();
+                }*/
+                    
+            
 
             if (this.grounded && jump)
             {
