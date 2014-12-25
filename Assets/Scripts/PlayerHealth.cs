@@ -24,7 +24,7 @@ namespace Assets.Scripts
 
         private float lastHitTime;
 
-        private Platformer2DUserControl playerControl;
+        private UserControl playerControl;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            this.playerControl = this.GetComponent<Platformer2DUserControl>();
+            this.playerControl = this.GetComponent<UserControl>();
             this.healthBar = GameObject.Find("HealthBar").GetComponent<SpriteRenderer>();
             this.anim = this.GetComponent<Animator>();
             this.healthScale = this.healthBar.transform.localScale;
@@ -78,7 +78,7 @@ namespace Assets.Scripts
                             s.sortingLayerName = Layers.UI;
                         }
 
-                        this.GetComponent<Platformer2DUserControl>().enabled = false;
+                        this.GetComponent<UserControl>().enabled = false;
                         this.GetComponentInChildren<Gun>().enabled = false;
                         this.anim.SetTrigger(Triggers.Die);
                     }

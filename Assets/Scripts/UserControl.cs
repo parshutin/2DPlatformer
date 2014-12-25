@@ -4,7 +4,7 @@ using UnitySampleAssets.CrossPlatformInput;
 
 namespace Assets.Scripts
 {
-    public class Platformer2DUserControl : MonoBehaviour
+    public class UserControl : MonoBehaviour
     {
         #region Fields
 

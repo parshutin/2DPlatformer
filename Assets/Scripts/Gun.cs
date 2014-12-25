@@ -20,7 +20,7 @@ namespace Assets.Scripts
 
         public Rigidbody2D rocket;
 
-        private Platformer2DUserControl playerCtrl;
+        private UserControl playerCtrl;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            this.playerCtrl = this.transform.root.GetComponent<Platformer2DUserControl>();
+            this.playerCtrl = this.transform.root.GetComponent<UserControl>();
         }
 
         private void Shoot(Rigidbody2D rigidbody, Vector2 velocity, Vector3 rotation)
