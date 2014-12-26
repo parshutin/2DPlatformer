@@ -7,7 +7,7 @@ namespace Assets.Scripts
         #region Fields
 
         public GameObject explosion;
-
+       
         #endregion
 
         #region Methods
@@ -17,6 +17,7 @@ namespace Assets.Scripts
             Quaternion randomRotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
             Instantiate(this.explosion, this.transform.position, randomRotation);
         }
+        
 
         private void OnTriggerEnter2D(Collider2D col)
         {

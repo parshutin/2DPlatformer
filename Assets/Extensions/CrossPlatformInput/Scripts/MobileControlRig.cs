@@ -25,7 +25,7 @@ namespace UnitySampleAssets.CrossPlatformInput
 
 #if UNITY_EDITOR
 
-        private void OnEnable()
+        /*private void OnEnable()
         {
             EditorUserBuildSettings.activeBuildTargetChanged += Update;
             EditorApplication.update += Update;
@@ -35,7 +35,7 @@ namespace UnitySampleAssets.CrossPlatformInput
         {
             EditorUserBuildSettings.activeBuildTargetChanged -= Update;
             EditorApplication.update -= Update;
-        }
+        }*/
 
         private void Update()
         {

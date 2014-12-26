@@ -20,6 +20,8 @@ namespace Assets.Scripts
 
         public Rigidbody2D rocket;
 
+        public Rigidbody2D arrow;
+
         private UserControl playerCtrl;
 
         #endregion
@@ -41,10 +43,14 @@ namespace Assets.Scripts
         {
             if (CrossPlatformInputManager.GetButtonDown(Buttons.RocketFire))
             {
-                this.Shoot(
-                    this.rocket,
+                /*this.Shoot(
+                    this.arrow,
                     this.playerCtrl.facingRight ? new Vector2(RoketSpeed, 0) : new Vector2(-RoketSpeed, 0),
-                    this.playerCtrl.facingRight ? new Vector3(0, 0, 0) : new Vector3(0, 0, 180f));
+                    this.playerCtrl.facingRight ? new Vector3(0, 0, 0) : new Vector3(0, 0, 180));*/
+                this.Shoot(
+                    this.arrow,
+                    this.playerCtrl.facingRight ? new Vector2(10, 20) : new Vector2(-10, 20),
+                    this.playerCtrl.facingRight ? new Vector3(0, 0, 45) : new Vector3(0, 0, 145));
             }
 
             if (CrossPlatformInputManager.GetButtonDown(Buttons.BombFire))

@@ -6,9 +6,9 @@ namespace Assets.Scripts
     {
         #region Fields
 
-        private Vector2 maxXAndY = new Vector2(80,34);//new Vector2(80,34);
+        private Vector2 maxXAndY = new Vector2(80, 34);
 
-        private Vector2 minXAndY = new Vector2(-80, -34);//new Vector2(-30, -34);
+        private Vector2 minXAndY = new Vector2(-80, -34);
 
         private const float xMargin = 1f;
 
