@@ -20,6 +20,10 @@ namespace Assets.Scripts
             if (col.tag == Tags.Wall)
             {
                 this.rigidbody2D.isKinematic = true;
+                var player = GameObject.Find("Player");
+                SpringJoint2D joint = player.GetComponent<SpringJoint2D>();
+                joint.connectedBody = this.gameObject.rigidbody2D;
+                joint.enabled = true;
             }
         }
 
