@@ -10,6 +10,8 @@
 
         public const string RocketFire = "Fire1";
 
+        public const string Rope = "Rope";
+
         #endregion
     }
 }

@@ -45,28 +45,27 @@ namespace Assets.Scripts
         {
             if (CrossPlatformInputManager.GetButtonDown(Buttons.RocketFire))
             {
+
+                this.Shoot(
+                    this.rocket,
+                    this.playerCtrl.facingRight ? new Vector2(RoketSpeed, 0) : new Vector2(-RoketSpeed, 0),
+                    this.playerCtrl.facingRight ? new Vector3(0, 0, 0) : new Vector3(0, 0, 180));
+            }
+            else if (CrossPlatformInputManager.GetButtonDown(Buttons.Rope))
+            {
                 if (!this.OnRope)
                 {
-                    /*this.Shoot(
-                   this.arrow,
-                   this.playerCtrl.facingRight ? new Vector2(RoketSpeed, 0) : new Vector2(-RoketSpeed, 0),
-                   this.playerCtrl.facingRight ? new Vector3(0, 0, 0) : new Vector3(0, 0, 180));*/
-                    this.Shoot(
-                        this.arrow,
-                        this.playerCtrl.facingRight ? new Vector2(10, 20) : new Vector2(-10, 20),
-                        this.playerCtrl.facingRight ? new Vector3(0, 0, 45) : new Vector3(0, 0, 145));
+                    this.Shoot(this.arrow, this.playerCtrl.facingRight ? new Vector2(10, 20) : new Vector2(-10, 20), this.playerCtrl.facingRight ? new Vector3(0, 0, 45) : new Vector3(0, 0, 145));
                     this.OnRope = true;
                 }
                 else
                 {
-                    var arrow = GameObject.Find("arrow 1(Clone)");
+                    var arrow = GameObject.FindGameObjectWithTag(Tags.Arrow);
                     Destroy(arrow);
                     this.OnRope = false;
                 }
-               
             }
-
-            if (CrossPlatformInputManager.GetButtonDown(Buttons.BombFire))
+            else if (CrossPlatformInputManager.GetButtonDown(Buttons.BombFire))
             {
                 this.Shoot(
                     this.bomb,

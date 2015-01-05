@@ -4,14 +4,19 @@ namespace Assets.Scripts
 {
     public class Arrow : MonoBehaviour
     {
-        // Line start width
-        public float startWidth = 0.05f;
-        // Line end width
+        #region Fields
+
+        private GameObject player;
+
         public float endWidth = 0.05f;
+
+        public Material material;
+
+        public float startWidth = 0.05f;
 
         private LineRenderer line;
 
-        public Material material;
+        #endregion
 
         #region Methods
 
@@ -20,30 +25,25 @@ namespace Assets.Scripts
             if (col.tag == Tags.Wall)
             {
                 this.rigidbody2D.isKinematic = true;
-                var player = GameObject.Find("Player");
-                SpringJoint2D joint = player.GetComponent<SpringJoint2D>();
+                var joint = this.player.GetComponent<SpringJoint2D>();
                 joint.connectedBody = this.gameObject.rigidbody2D;
                 joint.enabled = true;
             }
         }
 
-        void Start()
+        private void Start()
         {
-            line = this.gameObject.AddComponent<LineRenderer>();
-            line.SetVertexCount(2);
-            line.material = material;
-            //we need to see the line... 
-            line.renderer.enabled = true;
+            this.player = GameObject.Find("Player");
+            this.line = this.gameObject.AddComponent<LineRenderer>();
+            this.line.SetVertexCount(2);
+            this.line.material = this.material;
+            this.line.renderer.enabled = true;
         }
 
-        void Update()
+        private void Update()
         {
-            //get the shooter object...
-            var bob = GameObject.Find("Player");
-            //set starting point of line to this object, in this case the grappling hook prefab
-            line.SetPosition(0, this.gameObject.transform.position);
-            //set the ending point of the line to the shooter object
-            line.SetPosition(1, bob.transform.position);
+            this.line.SetPosition(0, this.gameObject.transform.position);
+            this.line.SetPosition(1, this.player.transform.position);
         }
 
         #endregion
